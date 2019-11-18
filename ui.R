@@ -1,45 +1,26 @@
 library(shiny)
+items <- lapply(1:20, function(x) paste0("group", x))
+itemNames<-lapply(1:20,function(x) paste0("Group",x))
+names(items)<-itemNames
 
-# Define UI for miles per gallon application
+# Define UI 
 shinyUI(pageWithSidebar(
 
   # Application title
   headerPanel("Gene Dependancies on Histone Clusting"),
 
-  # Sidebar with controls to select the variable to plot against mpg
-  # and to specify whether outliers should be included
+  # Sidebarpanel
   sidebarPanel(
-    selectInput("variable", "Select Group:",
-                list("Group1" = "group1", 
-                     "Group2" = "group2", 
-                     "Group3" = "group3",
-                     "Group4" = "group4",
-                     "Group5" = "group5",
-                     "Group6" = "group6",
-                     "Group7" = "group7",
-                     "Group8" = "group8",
-                     "Group9" = "group9",
-                     "Group10" = "group10",
-                     "Group11" = "group11",
-                     "Group12" = "group12",
-                     "Group13" = "group13",
-                     "Group14" = "group14",
-                     "Group15" = "group15",
-                     "Group16" = "group16",
-                     "Group17" = "group17",
-                     "Group18" = "group18",
-                     "Group19" = "group19",
-                     "Group20" = "group20")),
+    selectInput("cluster", "Select Group:",
+		choices=items),
 
     textInput("geneList", h3("Enter Genes:"),
-		value = "PHC2 PHC3 AEBP2"),
+		value = "JARID2 RNF2 AEBP2 SIN3A LCOR LCORL C10orf12 EZH2 EZH1 EED SUZ12 RBBP4"),
   ),
 
   # Show the caption and plot of the requested variable against mpg
   mainPanel(
     h3(textOutput("caption")),
-
-  #  tableOutput("genes"),
 
     plotlyOutput("achilles")
   )
