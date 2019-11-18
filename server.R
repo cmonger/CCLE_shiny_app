@@ -24,7 +24,8 @@ shinyServer(function(input, output) {
   })
 
   groupList<- reactive({
-	  read.table()
+	  cellLines<-read.delim(paste("data/",input$cluster,".txt",sep=""))[,2]
+          subset(geneList(), X %in% cellLines)
   })
 
   #Working plot which prints the Achilles data in the gene effect plot
@@ -32,6 +33,7 @@ shinyServer(function(input, output) {
     ggplotly(ggplot(geneList(),aes(value,variable,name=X))+
 	     geom_vline(xintercept=0)+geom_vline(xintercept=-0.5,linetype="dashed")+
 	     theme_bw()+theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-	     xlab("Effect Score")+ylab("Gene") +geom_point(alpha=0.3))
+	     xlab("Effect Score")+ylab("Gene") +geom_point(alpha=0.3)+
+	     geom_point(data=groupList(),aes(value,variable,name=X),col="red",alpha=0.5))
   })
 })
